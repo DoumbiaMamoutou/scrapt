@@ -1,26 +1,23 @@
 import requests
 from bs4 import BeautifulSoup
 
-url = "https://www.lespagesjaunesafrique.com/"
+url = "https://github.com/DoumbiaMamoutou/projet_groupe1"
 
 response = requests.get(url)
 
 if response.status_code == 200:
     html_soup = BeautifulSoup(response.text, 'html.parser')
-    div_pays = html_soup.findAll('div', attrs={'class': "col-sm-4 col-xs-6 col-md-4 col-lg-3"}) 
-    compt = 0
-    for item in div_pays:
-        if compt < 53:
-            ba = item.find('a')
-            url = ba['href']
-            texte = ba.find('div', attrs={'class': "drapeaux"}).get_text()
-            print(compt, "\n url : " + url + "\n texte : " +texte)
-            
-            compt += 1
-    
-    # for items in ct:
-    #     pays = ct.find('div', attrs={'class': "col-sm-4 col-xs-6 col-md-4 col-lg-3"})
-    #     print(pays)
-    # print(div_pays)
+    div_nav = html_soup.find('div', attrs={'class': "overall-summary overall-summary-bottomless"})
+    div_ul = div_nav.find('ul', attrs={'class': "numbers-summary"})
+    div_li = div_ul.findAll('li')
+    cnt = 0
+    for items in div_li:
+    	if cnt < 5:
+	    	a = items.find('a')
+	    	url = a['href']
+	    	des = a.find('span', attrs={'class': "num text-emphasized"}).get_text()
+	    	print(url, des)
+	    	cnt += 1
+    	
 else:
     print("error", response.status_code)    
